@@ -1,3 +1,9 @@
+function onOpen() {
+  SpreadsheetApp.getUi()
+    .createMenu("File Tools")
+    .addItem("List Drive Files", "getListOfFiles")
+    .addToUi();
+}
 function getListOfFiles(targetID) {
   filesList="";
   var parentFolder = DriveApp.getFolderById(targetID); 
