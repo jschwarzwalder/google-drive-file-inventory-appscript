@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+<h3>Select Folder</h3>
+
+<div id="folders">
+Loading...
+</div>
+
+
+<script>
+
+google.script.run
+  .withSuccessHandler(showFolders)
+  .getFolders();
+
+
+function showFolders(folders) {
+
+  const div =
+    document.getElementById("folders");
+
+  div.innerHTML = "";
+
+
+  folders.forEach(folder => {
+
+    const button =
+      document.createElement("button");
+
+
+    button.textContent =
+      folder.name;
+
+
+    button.onclick = function() {
+
+      google.script.run
+        .saveFolder(folder.id);
+
+
+      alert(
+        "Selected: " + folder.name
+      );
+
+    };
+
+
+    div.appendChild(button);
+
+    div.appendChild(
+      document.createElement("br")
+    );
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>

@@ -54,13 +54,18 @@ ADD_PROJECT_ID_HERE
 
 # Features
 
+# Features
+
 * Adds a custom **File Tools** menu to Google Sheets
-* Reads files from a Google Drive folder
+* Allows users to select a Google Drive folder from the Sheet UI
+* Reads files from a selected Google Drive folder
+* Searches subfolders recursively
 * Extracts:
 
   * File name
   * File ID
   * File URL
+  * Folder path
 * Writes results directly into the spreadsheet
 * Creates a repeatable Drive inventory workflow
 
@@ -154,6 +159,23 @@ Future versions may include:
 
 ---
 
+## Iteration 5 — Add Folder Selection UI
+
+Earlier versions required manually copying a Google Drive folder ID into the script.
+
+This iteration added a folder selection workflow directly inside Google Sheets.
+
+New capabilities:
+
+* Added a **Select Folder** menu option
+* Added a sidebar folder picker
+* Stores the selected folder ID using Apps Script properties
+* Allows users to run inventories without modifying code
+
+The workflow changed from:
+
+---
+
 # Quick Start
 
 1. Open Google Sheets
@@ -164,15 +186,15 @@ Extensions → Apps Script
 ```
 
 3. Copy `Code.gs`
-4. Update:
+4. Reload the spreadsheet
+5. Use:
 
-```javascript
-const folderId = "YOUR_FOLDER_ID";
+```
+File Tools → List Drive Files
 ```
 
-5. Save
-6. Reload the Sheet
-7. Run:
+6. Choose the folder you want to inventory
+7. Use:
 
 ```
 File Tools → List Drive Files
