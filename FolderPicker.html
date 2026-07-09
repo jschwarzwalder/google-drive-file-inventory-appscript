@@ -5,18 +5,48 @@
 
 <h3>Select Folder</h3>
 
-<div id="folders">
-Loading...
+<div id="currentPath">
+  My Drive
 </div>
+
+<br>
+
+<button onclick="goBack()">
+⬅ Back
+</button>
+
+<hr>
+
+<div id="folders">
+  Loading folders...
+</div>
+
+<br>
+
+<button onclick="selectCurrentFolder()">
+Select This Folder
+</button>
 
 
 <script>
 
+let currentFolderId = null;
+
+let folderHistory = [];
+
+
+/**
+ * Load root folders when sidebar opens.
+ */
 google.script.run
   .withSuccessHandler(showFolders)
   .getFolders();
 
 
+
+/**
+ * Display folders in sidebar.
+ */
 function showFolders(folders) {
 
   const div =
@@ -25,24 +55,50 @@ function showFolders(folders) {
   div.innerHTML = "";
 
 
-  folders.forEach(folder => {
+  if (folders.length === 0) {
+
+    div.innerHTML =
+      "No folders found.";
+
+    return;
+
+  }
+
+
+  folders.forEach(function(folder) {
+
 
     const button =
       document.createElement("button");
 
 
     button.textContent =
-      folder.name;
+      "📁 " + folder.name;
+
+
+    button.style.width =
+      "100%";
 
 
     button.onclick = function() {
 
-      google.script.run
-        .saveFolder(folder.id);
+
+      // Save current location
+      folderHistory.push({
+        id: currentFolderId,
+        name: document
+          .getElementById("currentPath")
+          .textContent
+      });
 
 
-      alert(
-        "Selected: " + folder.name
+      currentFolderId =
+        folder.id;
+
+
+      loadFolders(
+        folder.id,
+        folder.name
       );
 
     };
@@ -50,15 +106,121 @@ function showFolders(folders) {
 
     div.appendChild(button);
 
+
     div.appendChild(
       document.createElement("br")
     );
+
 
   });
 
 }
 
+
+
+/**
+ * Load folders inside selected folder.
+ */
+function loadFolders(folderId, folderName) {
+
+
+  document
+    .getElementById("currentPath")
+    .textContent =
+      folderName;
+
+
+  google.script.run
+    .withSuccessHandler(showFolders)
+    .getChildFolders(folderId);
+
+}
+
+
+
+/**
+ * Return to previous folder.
+ */
+function goBack() {
+
+
+  if (folderHistory.length === 0) {
+
+    return;
+
+  }
+
+
+  const previous =
+    folderHistory.pop();
+
+
+  currentFolderId =
+    previous.id;
+
+
+  document
+    .getElementById("currentPath")
+    .textContent =
+      previous.name;
+
+
+  if (currentFolderId) {
+
+
+    google.script.run
+      .withSuccessHandler(showFolders)
+      .getChildFolders(currentFolderId);
+
+
+  } else {
+
+
+    google.script.run
+      .withSuccessHandler(showFolders)
+      .getFolders();
+
+
+  }
+
+}
+
+
+
+/**
+ * Save selected folder.
+ */
+function selectCurrentFolder() {
+
+
+  if (!currentFolderId) {
+
+    alert(
+      "Please choose a folder first."
+    );
+
+    return;
+
+  }
+
+
+  google.script.run
+    .withSuccessHandler(function() {
+
+      alert(
+        "Folder selected."
+      );
+
+    })
+    .saveFolder(currentFolderId);
+
+
+}
+
+
 </script>
 
+
 </body>
+
 </html>

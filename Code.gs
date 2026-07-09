@@ -1,4 +1,23 @@
- /**
+/**
+ * File Tools - Google Drive Inventory
+ *
+ * Version 5:
+ * - Adds Google Sheets custom menu
+ * - Adds folder selection sidebar
+ * - Allows browsing Drive folders before selection
+ * - Stores selected folder using User Properties
+ * - Recursively inventories files and subfolders
+ *
+ * Workflow:
+ * Select Folder
+ *       ↓
+ * Browse Drive folders
+ *       ↓
+ * List Drive Files
+ *       ↓
+ * Export inventory to Sheet
+ */
+/**
  * Adds a custom menu when the spreadsheet opens.
  */
 function onOpen() {
@@ -27,11 +46,20 @@ function showFolderPicker() {
 
 
 /**
- * Returns folders from My Drive.
+ * Returns top-level folders from My Drive.
+ *
+ * Version 5:
+ * - Provides starting point for folder browser
+ * - Used by FolderPicker.html
+ * - Loads only current folder level
+ *
+ * Child folders are loaded using getChildFolders().
  */
 function getFolders() {
 
-  const folders = DriveApp.getFolders();
+  const rootFolder = DriveApp.getRootFolder();
+
+  const folders = rootFolder.getFolders();
 
   const folderList = [];
 
@@ -62,11 +90,48 @@ function saveFolder(folderId) {
     );
 }
 
+/**
+ * Returns folders inside a selected folder.
+ *
+ * Version 5:
+ * - Supports hierarchical folder browsing
+ * - Prevents loading entire Drive at once
+ * - Used by FolderPicker.html navigation
+ */
+function getChildFolders(folderId) {
+
+  const folder =
+    DriveApp.getFolderById(folderId);
+
+  const folders =
+    folder.getFolders();
+
+  const folderList = [];
+
+
+  while (folders.hasNext()) {
+
+    const subfolder =
+      folders.next();
+
+
+    folderList.push({
+      name: subfolder.getName(),
+      id: subfolder.getId()
+    });
+
+  }
+
+
+  return folderList;
+}
+
 
 /**
  * Starts recursive Drive inventory.
  *
- * Version 4:
+ * Version 5:
+ * - Uses selected folder from folder picker
  * - Searches subfolders
  * - Tracks folder path
  * - Writes complete inventory to Sheet
@@ -138,7 +203,6 @@ function scanFolder(folder, folderPath, sheet) {
       folderPath
     ]);
   }
-
 
   // Search subfolders
   const subfolders = folder.getFolders();
