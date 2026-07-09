@@ -10,34 +10,47 @@ function onOpen() {
 
 
 /**
- * Lists files from a Google Drive folder
- * and writes results into the spreadsheet.
+ * Starts recursive Drive inventory.
  *
- * Version 3:
- * - Adds spreadsheet output
- * - Creates structured file inventory
+ * Version 4:
+ * - Searches subfolders
+ * - Tracks folder path
+ * - Writes complete inventory to Sheet
  */
 function getListOfFiles() {
   const folderId = "YOUR_FOLDER_ID";
 
   const parentFolder = DriveApp.getFolderById(folderId);
-  const files = parentFolder.getFiles();
 
   const sheet = SpreadsheetApp
     .getActiveSpreadsheet()
     .getActiveSheet();
 
-  // Clear previous results
+   // Clear previous results
   sheet.clear();
 
-  // Add headers
-  sheet.appendRow([
+   // Add headers
+   sheet.appendRow([
     "File Name",
     "File ID",
-    "File URL"
+    "File URL",
+    "Folder Path"
   ]);
 
-  let fileCount = 0;
+  scanFolder(rootFolder, rootFolder.getName(), sheet);
+
+  SpreadsheetApp.getUi()
+    .alert("Drive inventory complete.");
+}
+
+
+/**
+ * Recursively scans folders and subfolders.
+ */
+function scanFolder(folder, folderPath, sheet) {
+
+  // List files in current folder
+  const files = folder.getFiles();
 
   while (files.hasNext()) {
     const file = files.next();
@@ -45,12 +58,22 @@ function getListOfFiles() {
     sheet.appendRow([
       file.getName(),
       file.getId(),
-      file.getUrl()
+      file.getUrl(),
+      folderPath
     ]);
-
-    fileCount++;
   }
 
-  SpreadsheetApp.getUi()
-    .alert(fileCount + " files found.");
+
+  // Search subfolders
+  const subfolders = folder.getFolders();
+
+  while (subfolders.hasNext()) {
+    const subfolder = subfolders.next();
+
+    scanFolder(
+      subfolder,
+      folderPath + "/" + subfolder.getName(),
+      sheet
+    );
+  }
 }
