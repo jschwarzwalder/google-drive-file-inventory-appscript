@@ -101,93 +101,11 @@ The spreadsheet will populate with the file inventory.
 | Notes.docx  | xyz789  | Drive URL |
 
 ---
+## Development
 
-# Development Iterations
+This project has evolved through several incremental releases, from a simple Google Drive file listing script to a recursive Drive inventory tool with an interactive folder picker and a modular codebase.
 
-## Iteration 1 — Basic Folder Listing
-
-Initial version based on the idea of retrieving files from a Google Drive folder.
-
-Challenges discovered:
-
-* Functions requiring parameters cannot be directly run from the Apps Script editor.
-* Folder IDs must be explicitly provided.
-
----
-
-## Iteration 2 — Google Sheets Menu
-
-Added:
-
-```javascript
-function onOpen()
-```
-
-to create a custom menu:
-
-```
-File Tools → List Drive Files
-```
-
-This changed the script from a developer utility into a user workflow.
-
----
-
-## Iteration 3 — Writing Results to Sheets
-
-Original versions returned text using:
-
-```javascript
-ContentService.createTextOutput()
-```
-
-That approach is designed for web apps.
-
-The project was updated to write directly into spreadsheet cells.
-
----
-
-## Iteration 4 — Recursive Folder Support
-
-Future versions may include:
-
-* Searching subfolders
-* Recording folder paths
-* Exporting CSV
-* Scheduled inventory reports
-* Duplicate detection
-
----
-
-## Iteration 5 — Add Folder Selection UI
-
-Earlier versions required manually copying a Google Drive folder ID into the script.
-
-This iteration added a folder selection workflow directly inside Google Sheets.
-
-New capabilities:
-
-* Added a **Select Folder** menu option
-* Added a sidebar folder picker
-* Stores the selected folder ID using Apps Script properties
-* Allows users to run inventories without modifying code
-
-The workflow changed from:
-
----
-
-## Version 6 — Project Refactoring
-
-This release reorganized the project into multiple Apps Script files without changing functionality.
-
-The codebase is now organized by responsibility:
-
-- `Code.gs` — Menu and startup
-- `FolderPicker.gs` — Folder selection UI and persistence
-- `Inventory.gs` — Drive inventory logic
-- `FolderPicker.html` — Sidebar interface
-
-This refactoring improves readability, navigation, and long-term maintainability.
+See [CHANGELOG.md](./CHANGELOG.md) for the complete development history and version details.
 
 ---
 
