@@ -176,6 +176,21 @@ The workflow changed from:
 
 ---
 
+## Version 6 — Project Refactoring
+
+This release reorganized the project into multiple Apps Script files without changing functionality.
+
+The codebase is now organized by responsibility:
+
+- `Code.gs` — Menu and startup
+- `FolderPicker.gs` — Folder selection UI and persistence
+- `Inventory.gs` — Drive inventory logic
+- `FolderPicker.html` — Sidebar interface
+
+This refactoring improves readability, navigation, and long-term maintainability.
+
+---
+
 # Quick Start
 
 1. Open Google Sheets
