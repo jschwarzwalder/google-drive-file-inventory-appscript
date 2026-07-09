@@ -4,6 +4,7 @@
 ![Google Sheets](https://img.shields.io/badge/Google%20Sheets-Integration-green)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-green)
+![Version](https://img.shields.io/badge/version-6-blue)
 
 A Google Apps Script tool that creates a **Google Drive file inventory inside Google Sheets**.
 
@@ -30,6 +31,20 @@ Google Drive is excellent for storing files, but it can become difficult to answ
 
 This project turns Google Sheets into a simple interface for exploring and documenting Drive contents.
 
+## Origin
+
+This project started from the Google Apps Script tutorial:
+
+[List Files in a Folder and Subfolder on Google Drive](https://technologydots.com/list-files-in-a-folder-and-subfolder-on-google-drive/)
+
+The original script provided the foundation for recursively listing files from Google Drive folders. This project extends that foundation into a spreadsheet-based inventory workflow by adding:
+
+- Google Sheets integration
+- Recursive inventory output
+- Folder path tracking
+- Interactive folder selection UI
+- Modular Apps Script architecture
+
 ---
 
 ## Project Overview
@@ -42,19 +57,27 @@ https://github.com/jschwarzwalder/google-drive-file-inventory-appscript
 
 ### Apps Script Project
 
-Add your Apps Script project URL here.
+Private Google Apps Script deployment.
 
-### Apps Script Project ID
+The live Apps Script project is maintained separately from this repository.
+
+Script ID:
 
 ```
-ADD_PROJECT_ID_HERE
+1pDQxaqzA0zow1F5ICrEUTJ4UnKMXybS2Q5wx_H4OW1jkbUbczZy8xQZM
 ```
+
+The Script ID is provided for project tracking only. Access requires Google permissions.
+
+## Status
+
+Active development.
+
+Current release: Version 6 — Project Refactoring.
 
 ---
 
-# Features
-
-# Features
+## Features
 
 * Adds a custom **File Tools** menu to Google Sheets
 * Allows users to select a Google Drive folder from the Sheet UI
@@ -71,29 +94,67 @@ ADD_PROJECT_ID_HERE
 
 ---
 
-# Current Workflow
+## Project Structure
 
-1. Open a Google Sheet
-2. Select:
+The Apps Script project is organized by responsibility:
 
-```
-Extensions → Apps Script
-```
+Code.gs
+  - Custom menu creation
+  - Spreadsheet startup logic
 
-3. Add the `Code.gs` file from this repository
-4. Set your target Google Drive folder ID
-5. Reload the spreadsheet
-6. Use:
+FolderService.gs
+  - Folder picker integration
+  - Folder selection persistence
 
-```
-File Tools → List Drive Files
-```
+Inventory.gs
+  - Drive scanning
+  - Recursive inventory generation
 
-The spreadsheet will populate with the file inventory.
+FolderPicker.html
+  - Sidebar folder selection interface
 
 ---
 
-# Example Output
+## Installation and Usage
+
+1. Open a Google Sheet.
+
+2. Open:
+
+```text
+Extensions → Apps Script
+```
+
+3. Add the Apps Script files from this repository to the Apps Script editor:
+
+```text
+Code.gs
+FolderService.gs
+Inventory.gs
+FolderPicker.html
+```
+
+4. Save the project and reload the spreadsheet.
+
+5. Open:
+
+```text
+File Tools → Select Folder
+```
+
+6. Choose the Google Drive folder you want to inventory.
+
+7. Run:
+
+```text
+File Tools → List Drive Files
+```
+
+The spreadsheet will populate with the Drive inventory.
+
+---
+
+## Example Output
 
 | File Name   | File ID | URL       |
 | ----------- | ------- | --------- |
@@ -101,6 +162,7 @@ The spreadsheet will populate with the file inventory.
 | Notes.docx  | xyz789  | Drive URL |
 
 ---
+
 ## Development
 
 This project has evolved through several incremental releases, from a simple Google Drive file listing script to a recursive Drive inventory tool with an interactive folder picker and a modular codebase.
@@ -109,33 +171,7 @@ See [CHANGELOG.md](./CHANGELOG.md) for the complete development history and vers
 
 ---
 
-# Quick Start
-
-1. Open Google Sheets
-2. Go to:
-
-```
-Extensions → Apps Script
-```
-
-3. Copy `Code.gs`
-4. Reload the spreadsheet
-5. Use:
-
-```
-File Tools → List Drive Files
-```
-
-6. Choose the folder you want to inventory
-7. Use:
-
-```
-File Tools → List Drive Files
-```
-
----
-
-# Lessons Learned
+## Lessons Learned
 
 This project highlighted several Google Apps Script concepts:
 
@@ -146,20 +182,18 @@ This project highlighted several Google Apps Script concepts:
 
 ---
 
-# Future Ideas
+## Future Ideas
 
-* Recursive folder scanning
-* Folder hierarchy output
 * File owner information
 * Last modified timestamps
 * File type filtering
-* Scheduled reports
 * Export inventory to CSV
-* Dashboard visualization
+* Duplicate file detection
+* Drive storage analysis
 
 ---
 
-# Contributing
+## Contributing
 
 Suggestions, bug reports, and improvements are welcome.
 
@@ -167,6 +201,6 @@ Open an issue or submit a pull request with ideas for improving the workflow.
 
 ---
 
-# License
+## License
 
 This project is licensed under the MIT License.

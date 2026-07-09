@@ -28,7 +28,7 @@ This project follows a simple versioning approach where each version represents 
 ### Added
 
 * Folder selection sidebar using Google Apps Script HTML Service.
-* Hierarchical folder browser for navigating Google Drive.
+* Hierarchical folder navigation with support for browsing child folders.
 * Support for browsing child folders.
 * Selected folder is saved using `PropertiesService`.
 * Custom **Select Folder** menu option.
