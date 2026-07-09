@@ -4,10 +4,10 @@
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu("File Tools")
+    .addItem("List All Folders", "listAllFolders")
     .addItem("List Drive Files", "getListOfFiles")
     .addToUi();
 }
-
 
 /**
  * Starts recursive Drive inventory.
